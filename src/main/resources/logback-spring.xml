@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <springProfile name="dev">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <property resource="application.yml" />
+        <springProperty name="logDbDriverClassName" source="spring.datasource.driverClassName"/>
+        <springProperty name="logDbUrl" source="spring.datasource.url"/>
+        <springProperty name="logDbUsername" source="spring.datasource.username"/>
+        <springProperty name="logDbPassword" source="spring.datasource.password"/>
+
+        <appender name="DB_Logger" class="ch.qos.logback.classic.db.DBAppender">
+            <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+                <driverClass>${logDbDriverClassName}</driverClass>
+                <url>${logDbUrl}</url>
+                <user>${logDbUsername}</user>
+                <password>${logDbPassword}</password>
+            </connectionSource>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="DB_Logger"/>
+        </root>
+    </springProfile>
+
+</configuration>

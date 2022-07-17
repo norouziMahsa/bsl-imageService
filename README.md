@@ -10,7 +10,7 @@ An application that can serve optimized images based on predefined properties.
 **1. Clone the application**
 
 ```bash
-git clone https://github.com/norouziMahsa/ImageService.git
+git clone https://github.com/norouziMahsa/bsl-imageService
 ```
 **2. Build and run the app using maven**
 
